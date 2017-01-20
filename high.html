@@ -135,7 +135,12 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             portraitFile = files[0]
             var imageType = /^image\//
             if ( !imageType.test(portraitFile.type) ) return
-            
+            var size = portraitFile.size / 1000 
+            if (size > 3000) {
+                alert('图片大小：' + size + 'K \n\n 一个头像而已，大小请控制在3M内。。')
+                return
+            }
+           
             var reader = new FileReader()
             reader.onload = function(e) {
                 portrait = new Image()
@@ -157,9 +162,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
             ctx.save()
             ctx.clip()
             ctx.drawImage(portrait, l, t, d, d)
+            // 恢复clip
+            ctx.restore()
         }
-        // 恢复clip
-        ctx.restore()
         // 文字信息
         ctx.font = 'bold 68px Microsoft YaHei'
         ctx.fillStyle = '#333'
